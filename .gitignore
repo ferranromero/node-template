@@ -1,12 +1,19 @@
+<<<<<<< HEAD
+=======
+# Logs
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
 logs
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+<<<<<<< HEAD
 lerna-debug.log*
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+=======
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
 
 # Runtime data
 pids
@@ -19,12 +26,19 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+<<<<<<< HEAD
 *.lcov
+=======
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
 
 # nyc test coverage
 .nyc_output
 
+<<<<<<< HEAD
 # Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
+=======
+# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
 .grunt
 
 # Bower dependency directory (https://bower.io/)
@@ -43,9 +57,12 @@ jspm_packages/
 # TypeScript v1 declaration files
 typings/
 
+<<<<<<< HEAD
 # TypeScript cache
 *.tsbuildinfo
 
+=======
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
 # Optional npm cache directory
 .npm
 
@@ -63,6 +80,7 @@ typings/
 
 # dotenv environment variables file
 .env
+<<<<<<< HEAD
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)
@@ -90,3 +108,8 @@ public/
 .dynamodb/
 
 # End of https://www.gitignore.io/api/node
+=======
+
+# next.js build output
+.next
+>>>>>>> fb24ecc8f99c2db0369df37f2a3bf63e6c1782d1
