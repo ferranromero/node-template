@@ -2,46 +2,50 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import routes from "./routes";
-import { connectDB } from "./config/db";
+import {
+    connectDB,
+    syncDatabase
+} from "./config/db";
 const app = express();
+
+
+
 //MIDDLEWARES
 app.use(cors());
-app.use(express.json({limit:"10mb"}));
-app.use(express.urlencoded({extended:false}));
+app.use(express.json({
+    limit: "10mb"
+}));
+app.use(express.urlencoded({
+    extended: false
+}));
 
+//Connect database
 connectDB();
-//ROUTINGS
-app.use("/users",routes.users);
+//Sync database models and drop or not if existing (force param);
+syncDatabase(true);
 
-const test = () => {
-    let test = {name:"Ferran"}
-    return test;
-}
 
-// SIMPLE METHODS
-app.get("/",(req,res)=>{
-    
-    //res.end(JSON.stringify(test()));
+//ROUTINGS -- Add module routers here
+app.use("/users", routes.users);
+
+// SIMPLE METHODS for root endpoint
+app.get("/", (req, res) => {
     res.send("Received a GET HTTP request");
 });
 
-app.post("/",(req,res)=>{
+app.post("/", (req, res) => {
     //Data on req.body
     res.send("Received a POST HTTP request");
 });
 
-app.put("/",(req,res)=>{
+app.put("/", (req, res) => {
     res.send("Received a PUT HTTP request");
 });
 
-app.delete("/",(req,res)=>{
+app.delete("/", (req, res) => {
     res.send("Received a DELETE HTTP request");
 });
 
-
-
-
-
-app.listen(process.env.RUNNING_PORT,()=>{
+app.listen(process.env.RUNNING_PORT, () => {
     console.log("Server is running on port", process.env.RUNNING_PORT);
 })

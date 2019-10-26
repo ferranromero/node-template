@@ -18,3 +18,12 @@ export const connectDB = () =>{
         console.log("Errror: ", err);
     })
 }
+export const syncDatabase = (force)=>{
+    sequelize.sync({force: force})
+    .then(()=>{
+        console.log("Database models sync!")
+    })
+    .catch((err)=>{
+        console.log("Error sync database models");
+    })
+}
