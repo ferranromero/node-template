@@ -2,14 +2,14 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import routes from "./routes";
+import { connectDB } from "./config/db";
 const app = express();
-
-
 //MIDDLEWARES
 app.use(cors());
 app.use(express.json({limit:"10mb"}));
 app.use(express.urlencoded({extended:false}));
 
+connectDB();
 //ROUTINGS
 app.use("/users",routes.users);
 
@@ -20,10 +20,9 @@ const test = () => {
 
 // SIMPLE METHODS
 app.get("/",(req,res)=>{
-    res.writeHead(200,{"Content-Type":"application/json"});
-    res.json(test())
+    
     //res.end(JSON.stringify(test()));
-    //res.send("Received a GET HTTP request");
+    res.send("Received a GET HTTP request");
 });
 
 app.post("/",(req,res)=>{
