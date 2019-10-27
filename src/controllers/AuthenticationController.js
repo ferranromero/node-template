@@ -1,5 +1,4 @@
 import "dotenv/config";
-import User from "../models";
 import {
     hashSync,
     compareSync
@@ -7,6 +6,7 @@ import {
 import {
     encode,
 } from "jwt-simple";
+import User from "../models/User";
 
 
 export const login = (req, res) => {
@@ -26,7 +26,7 @@ export const login = (req, res) => {
             }
         })
         .catch((err) => {
-            res.send(err);
+            res.status(500).send(err);
         })
 }
 
@@ -42,10 +42,10 @@ export const register = (req, res) => {
             firstName: req.body.firstName,
             lastName: req.body.lastName,
             email: req.body.email,
-            token: encode(req.body.userName, process.env.APIKEY),
+            token: encode(req.body.userName, process.env.APIKEY)
         })
         .then((user) => {
-            res.send(user);
+            res.status(201).send(user);
         })
         .catch((err) => {
             switch (err.errors[0].type) {
@@ -65,12 +65,11 @@ export const register = (req, res) => {
                     })
                     break;
                 default:
-                    res.status(400).send({
+                    res.status(500).send({
                         status: "Not handled",
                         message: err.errors[0].type
                     });
                     break;
             }
-
         });
 }
