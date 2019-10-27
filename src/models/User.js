@@ -2,7 +2,6 @@ import { sequelize } from "../config/db";
 import {Sequelize} from "sequelize";
 
 const User = sequelize.define('user', {
-    // attributes
     uuid:{
         type: Sequelize.UUID,
         primaryKey: true,
