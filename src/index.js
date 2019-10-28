@@ -48,4 +48,6 @@ app.delete("/", (req, res) => {
 
 app.listen(process.env.RUNNING_PORT, () => {
     console.log("Server is running on port", process.env.RUNNING_PORT);
-})
+});
+
+module.exports = app;

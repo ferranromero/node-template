@@ -50,7 +50,7 @@ export const register = (req, res) => {
         .catch((err) => {
             switch (err.errors[0].type) {
                 case "unique violation":
-                    res.status(400).send({
+                    res.status(409).send({
                         message: "User already exists"
                     });
                     break;
@@ -67,7 +67,7 @@ export const register = (req, res) => {
                 default:
                     res.status(500).send({
                         status: "Not handled",
-                        message: err.errors[0].type
+                        message: err
                     });
                     break;
             }
