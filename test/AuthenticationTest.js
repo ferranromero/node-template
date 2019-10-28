@@ -6,15 +6,16 @@ import chai, {
 import chaiHttp from "chai-http";
 import server from "../src/index";
 import User from "../src/models/User";
+import { encode } from "jwt-simple";
 
 let srv = server;
 
 chai.use(chaiHttp);
 chai.should();
 
-describe("Authentication", (done) => {
+describe("Authentication Service", (done) => {
   before((done) => {
-    setTimeout(done, 400);
+    setTimeout(done, 500);
   })
   beforeEach((done) => {
     User.destroy({
@@ -23,8 +24,8 @@ describe("Authentication", (done) => {
       })
       .then((res) => done());
   })
-  describe("Endpoint: /users/register", () => {
-    it("Return 400 when bad email input", (done) => {
+  describe("--> Register", () => {
+    it("--> When a email format is invalid, must not register user.", (done) => {
       chai.request(srv)
         .post("/users/register")
         .send({
@@ -38,7 +39,7 @@ describe("Authentication", (done) => {
           done();
         })
     });
-    it("Return 201 when all Ok!", (done) => {
+    it("--> When all fields are correct, user must be registered.", (done) => {
       chai.request(srv)
         .post("/users/register")
         .send({
@@ -49,11 +50,10 @@ describe("Authentication", (done) => {
         .end((err, res) => {
           expect(res.status).to.equal(201);
           expect(res.body.userName).to.equal("pepito");
-          expect(res.body.email).to.equal("smxfromero@gmail.com");
           done();
         })
     });
-    it("Return 400 when missing username", (done) => {
+    it("--> When username field is not provided, user is not registered.", (done) => {
       chai.request(srv)
         .post("/users/register")
         .send({
@@ -66,7 +66,7 @@ describe("Authentication", (done) => {
           done();
         })
     });
-    it("Return 400 when missing password", (done) => {
+    it("--> When password field is missing, user is not registered.", (done) => {
       chai.request(srv)
         .post("/users/register")
         .send({
@@ -79,7 +79,7 @@ describe("Authentication", (done) => {
           done();
         })
     });
-    it("Return 400 when missing email", (done) => {
+    it("--> When email field is missing, user is not registered", (done) => {
       chai.request(srv)
         .post("/users/register")
         .send({
@@ -92,7 +92,7 @@ describe("Authentication", (done) => {
           done();
         })
     });
-    it("Return 409 when duplicated!", (done) => {
+    it("--> When another user with same username already exists, user is not registered.", (done) => {
       User.create({
           userName: "ferran.romero",
           password: "12345",
@@ -115,4 +115,42 @@ describe("Authentication", (done) => {
         })
     });
   });
+  describe("--> Login", () => {
+    before((done) => {
+      setTimeout(done, 100);
+    })
+    beforeEach((done) => {
+      User.destroy({
+        where: {},
+        truncate: true
+      })
+      .then(()=>{
+        User.create({
+          userName: "ferran.romero",
+          password: "1234",
+          firstName: "ferran",
+          email: "ferran@gmail.com",
+          token: encode("ferran.romero", process.env.APIKEY)
+        })
+        .then((user) => {
+          done();
+        })
+      })
+      
+    })
+    it("--> When a user validates OK, it must receive a token",(done)=>{
+      chai.request(srv)
+      .post("/users/login")
+      .send({
+        userName: "ferran.romero",
+        password: "1234"
+      })
+      .end((err,res)=>{
+        console.log(res);
+        done();
+      })
+      
+    });
+  })
+  
 });
