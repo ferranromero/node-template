@@ -6,7 +6,11 @@ import chai, {
 import chaiHttp from "chai-http";
 import server from "../src/index";
 import User from "../src/models/User";
-import { encode } from "jwt-simple";
+import {
+  hashSync,
+  compareSync
+} from "bcrypt";
+import { encode} from "jwt-simple";
 
 let srv = server;
 
@@ -127,7 +131,7 @@ describe("Authentication Service", (done) => {
       .then(()=>{
         User.create({
           userName: "ferran.romero",
-          password: "1234",
+          password: hashSync("1234", 5),
           firstName: "ferran",
           email: "ferran@gmail.com",
           token: encode("ferran.romero", process.env.APIKEY)
@@ -146,11 +150,24 @@ describe("Authentication Service", (done) => {
         password: "1234"
       })
       .end((err,res)=>{
-        console.log(res);
+        expect(res.body.user).to.equal("ferran.romero");
+        expect(res.body.token).to.equal(encode("ferran.romero", process.env.APIKEY));
         done();
       })
-      
     });
+    it("--> WHen a users validates with bad credentials, must show error.",(done)=>{
+      chai.request(srv)
+      .post("/users/login")
+      .send({
+        userName: "ferran",
+        password: "1234"
+      })
+      .end((err,res)=>{
+        expect(res.body.message).to.equal("Bad credentials");
+        expect(res.status).to.equal(400);
+        done();
+      })
+    })
   })
   
 });

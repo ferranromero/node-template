@@ -22,7 +22,9 @@ export const login = (req, res) => {
                     token: user.token
                 })
             } else {
-                res.status(400).send("Bad credentials");
+                res.status(400).send({
+                    message: "Bad credentials",
+                })
             }
         })
         .catch((err) => {
