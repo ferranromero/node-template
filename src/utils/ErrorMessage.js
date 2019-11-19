@@ -1,8 +1,7 @@
-
-export const errorMessage = (code, msg) =>{
-    let payload = {
-        code : code,
-        msg : msg
-    }
-    return payload;
+export default function errorMessage(code, msg) {
+  const payload = {
+    code,
+    msg,
+  };
+  return payload;
 }
