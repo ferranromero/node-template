@@ -12,4 +12,9 @@ export default class Logger {
       console.warn(msg);
     }
   }
+
+  static log(msg) {
+    // eslint-disable-next-line no-console
+    console.log(msg);
+  }
 }
